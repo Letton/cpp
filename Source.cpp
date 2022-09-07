@@ -6,13 +6,9 @@
 using namespace std;
 
 int main() {
-	float x, y, b;
-	cin >> x >> y >> b;
-	if (((b - y) <= 0) or ((b - x) <= 0)) {
-		cout << "No solution";
+	int n;
+	cin >> n;
+	for (int i = n; i < n + 10; ++i) {
+		cout << i << '\n';
 	}
-	else {
-		cout << "z = " << log(b - y) * sqrt(b - x);
-	}
-
 }
