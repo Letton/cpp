@@ -5,10 +5,13 @@
 
 using namespace std;
 
+float func(float x) {
+	return ((x * x - 2 * x + 2) / (x - 1));
+}
+
+
 int main() {
-	int n;
-	cin >> n;
-	for (int i = n; i < n + 10; ++i) {
-		cout << i << '\n';
+	for (float i = -4; i <= 4; i += 0.5) {
+		cout << "x = " << i << "; y = " << func(i) << '\n';
 	}
 }
