@@ -6,8 +6,16 @@
 using namespace std;
 
 int main() {
-	float R, r, h, l;
-	cin >> R >> r >> h >> l;
-	cout << "V = " << 1.0 / 3.0 * M_PI * h * (R * R + R * r + r * r) << '\n';
-	cout << "S = " << M_PI * (R * R + (R + r) * l + r * r);
+	float x, a;
+	cin >> x >> a;
+	if (abs(x) < 1) {
+		cout << "w = " << a * log(abs(x));
+	} else {
+		if ((a - x * x) < 0) {
+			cout << "No solution";
+		}
+		else {
+			cout << "w = " << sqrt(a - x * x);
+		}
+	}
 }
