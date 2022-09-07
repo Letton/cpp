@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main() {
-	float a, b;
-	cin >> a >> b;
-	cout << a + b << '\n' << a - b << a * b << '\n' << a / b;
+	float b, c;
+	cin >> b >> c;
+	cout << -c / b;
 }
