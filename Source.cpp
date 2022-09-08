@@ -6,8 +6,13 @@
 using namespace std;
 
 int main() {
-	float S, p, n;
-	cin >> S >> p >> n;
+	float S, m, n;
+	cin >> S >> m >> n;
+	float p = 0.00001;
 	float r = p / 100;
-	cout << "m = " << S * r * pow((1 + r), n) / (12 * (pow((1 + r), n) - 1));
+	while (m > (S * r * pow((1 + r), n) / (12 * (pow((1 + r), n) - 1)))) {
+		p+=0.00001;
+		r = p / 100;
+	}
+	cout << floor(p);
 }
