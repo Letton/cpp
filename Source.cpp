@@ -18,7 +18,11 @@ int main() {
 	}
 	while (getline(file, fileline))
 	{
-		cout << fileline << "\n";
+		for (int i = 0; i < fileline.length(); ++i) {
+			if (fileline[i] >= '0' and fileline[i] <= '9')
+				cout << fileline[i];
+		}
+		cout << "\n";
 	}
 
 	file.close();
