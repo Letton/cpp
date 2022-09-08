@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -18,11 +19,8 @@ int main() {
 	}
 	while (getline(file, fileline))
 	{
-		for (int i = 0; i < fileline.length(); ++i) {
-			if (fileline[i] >= '0' and fileline[i] <= '9')
-				cout << fileline[i];
-		}
-		cout << "\n";
+		sort(fileline.begin(), fileline.end());
+		cout << fileline << '\n';
 	}
 
 	file.close();
