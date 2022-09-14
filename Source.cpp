@@ -12,17 +12,24 @@ int main() {
 	cout << "Input filename\n";
 	string filename, fileline;
 	cin >> filename;
-	ifstream file("./" + filename);
-	if (!file) {
-		cout << "Error opening file\n";
-		return -1;
+	ofstream fileout(filename);
+	double arr[10];
+	for (int i = 0; i < 10; ++i) {
+		cin >> arr[i];
 	}
-	while (getline(file, fileline))
-	{
-		sort(fileline.begin(), fileline.end());
-		cout << fileline << '\n';
+	for (int i = 0; i < 10; ++i) {
+		fileout << arr[i] << " ";
 	}
-
-	file.close();
+	fileout.close();
+	ifstream filein(filename);
+	for (int i = 0; i < 10; ++i) {
+		filein >> arr[i];
+	}
+	filein.close();
+	double sum = 0;
+	for (int i = 0; i < 10; ++i) {
+		sum += arr[i];
+	}
+	cout << sum;
 
 }
