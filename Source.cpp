@@ -1,4 +1,4 @@
-#define _USE_MATH_DEFINES
+﻿#define _USE_MATH_DEFINES
 
 #include <iostream>
 #include <fstream>
@@ -8,12 +8,30 @@
 
 using namespace std;
 
-int sign(int x) {
-	return x > 0 ? 1 : x == 0 ? 0 : -1;
+double rectangle_square(double a, double b) {
+	return a * b;
 }
 
+double circle_square(double r) {
+	return r * r * 3.14;
+}
+
+
 int main() {
-	int n;
-	cin >> n;
-	cout << sign(n);
+	char c;
+	cin >> c;
+	if (c == 'R') {
+		double a, b;
+		cin >> a >> b;
+		cout << "S = ab\n";
+		cout << "S = " << a << " * " << b << " = " << rectangle_square(a, b);
+	} else if (c == 'C') {
+		double r;
+		cin >> r;
+		cout << "S = pi * r^2\n";
+		cout << "S = 3,14 * " << r << "^2 = " << circle_square(r);
+	}
+	else {
+		cout << "Incorrect input";
+	}
 }
