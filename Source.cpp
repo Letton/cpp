@@ -6,6 +6,7 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+#include <Windows.h>
 
 using namespace std;
 
@@ -20,6 +21,10 @@ int main() {
 		data[round(h / 2 - (sin(i) * h / 2))].push_back(counter);
 		++counter;
 	}
+	for (int i = 0; i < w / 2 - 1; ++i) {
+		cout << " ";
+	}
+	cout << "^\n";
 	for (int i = 0; i < h / 2; ++i) {
 		for (int j = 0; j < data[i].size(); ++j) {
 			if (j == 0) {
