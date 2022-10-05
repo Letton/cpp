@@ -5,114 +5,62 @@
 #include <string>
 #include <cmath>
 #include <algorithm>
-#include <vector>
 
 using namespace std;
 
+double rectangle_square(double a, double b) {
+	return a * b;
+}
+
+double circle_square(double r) {
+	return r * r * 3.14;
+}
+
+double triangle_square(double a, double b, double alpha) {
+	return 0.5 * a * b * sin(alpha);
+}
+
 
 int main() {
-	int w, h;
-	w = 80;
-	h = 20;
-	vector <vector<int>> data(h + 1);
-	int counter = 0;
-	for (double i = 0; i < (0.2 * w); i += 0.2) {
-		data[round(h / 2 - (sin(i) * h / 2))].push_back(counter);
-		++counter;
+	char c;
+	cout << "Input R for retangle, C for circle, T for Triangle\n";
+	cin >> c;
+	if (c == 'R') {
+		double a, b;
+		cout << "Input a, b\n";
+		cin >> a >> b;
+		if ((a < 0) || (b < 0)) {
+			cout << "Incorrect input";
+			return -1;
+		}
+		cout << "S = ab\n";
+		cout << "S = " << a << " * " << b << " = " << rectangle_square(a, b);
 	}
-	for (int i = 0; i < h / 2; ++i) {
-		for (int j = 0; j < data[i].size(); ++j) {
-			if (j == 0) {
-				for (int k = 0; k < data[i][j]; ++k) {
-					if (k == (w / 2 - 1))
-						cout << '|';
-					else
-						cout << " ";
-				}
-				if (data[i][j] == (w / 2 - 1))
-					cout << '|';
-				else
-					cout << "*";
-			}
-			else {
-				for (int k = data[i][j - 1] + 1; k < data[i][j]; ++k) {
-					if (k == (w / 2 - 1))
-						cout << '|';
-					else
-						cout << " ";
-				}
-				if (data[i][j] == (w / 2 - 1))
-					cout << '|';
-				else
-					cout << "*";
-			}
+	else if (c == 'T') {
+		double a, b, alpha;
+		cout << "Input a, b, angle alpha in radians\n";
+		cin >> a >> b >> alpha;
+		if ((a < 0) && (b < 0) && (alpha < 0)) {
+			cout << "Incorrect input";
+			return -1;
 		}
-		for (int j = data[i][data[i].size() - 1]; j <= w; ++j) {
-			if (j == (w / 2 - 2))
-				cout << "|";
-			else
-				cout << " ";
-		}
-		cout << '\n';
+		cout << "S = 1 / 2 * a * b * sin(alpha)\n";
+		cout << "S = 1 / 2 * " << a << " * " << b << " * sin(" << alpha << ") = " << triangle_square(a, b, alpha);
 	}
-	int currentLine = h / 2;
-	for (int j = 0; j < data[currentLine].size(); ++j) {
-		if (j == 0) {
-			for (int k = 0; k < data[h / 2][j]; ++k) {
-				if (k == w / 2) 
-					cout << "+";
-				else
-					cout << "-";
-
-			}
-			cout << "-";
+	else if (c == 'C') {
+		double r;
+		cout << "Input radius\n";
+		cin >> r;
+		if (r < 0) {
+			cout << "Incorrect input";
+			return -1;
 		}
-		else {
-			for (int k = data[currentLine][j - 1] + 1; k < data[currentLine][j]; ++k) {
-				if (k == (w / 2 - 1))
-					cout << "+";
-				else
-					cout << "-";
-			}
-			cout << "-";
-		}
+		cout << "S = pi * r^2\n";
+		cout << "S = 3,14 * " << r << "^2 = " << circle_square(r);
 	}
-	for (int j = data[currentLine][data[currentLine].size() - 1]; j <= (w - 1); ++j) {
-		cout << "-";
-	}
-	cout << ">";
-	cout << "\n";
-	for (int i = h / 2 + 1; i < h + 1; ++i) {
-		for (int j = 0; j < data[i].size(); ++j) {
-			if (j == 0) {
-				for (int k = 0; k < data[i][j]; ++k) {
-
-					if (k == (w / 2 - 1))
-						cout << '|';
-					else
-						cout << " ";
-
-				}
-				cout << "*";
-			}
-			else {
-				for (int k = data[i][j - 1] + 1; k < data[i][j]; ++k) {
-					if (k == (w / 2 - 1))
-						cout << '|';
-					else
-						cout << " ";
-				}
-				cout << "*";
-			}
-		}
-		for (int j = data[i][data[i].size() - 1]; j <= w; ++j) {
-			if (j == (w / 2 - 2))
-				cout << "|";
-			else
-				cout << " ";
-		}
-		cout << '\n';
+	else {
+		cout << "Incorrect input";
+		return -1;
 	}
 	return 0;
 }
-
