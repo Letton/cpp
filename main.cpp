@@ -3,8 +3,7 @@
 
 using namespace std;
 
-char digitPreprocess(int n)
-{
+char digitPreprocess(int n) {
     if (n < 10) return n + '0';
     else if (n >= 10) {
         return 'A' + (n - 10);
@@ -45,18 +44,18 @@ int main()
             tempNumber += (number[i] - '0') * pow(a, numberSize - i - 1);
         }
     }
-    number = "";
+    string resNumber;
     stack <char> remainders;
-    if (tempNumber == 0) number = "0";
-    while(tempNumber > 0) {
+    if (tempNumber == 0) resNumber = "0";
+    while (tempNumber > 0) {
         char rem = digitPreprocess(tempNumber % b);
         tempNumber = tempNumber / b;
         remainders.push(rem);
     }
     while (!remainders.empty()) {
-        number += remainders.top();
+        resNumber += remainders.top();
         remainders.pop();
     }
-    cout << number;
+    cout << number << " in base " << a << " = " << resNumber << " in base " << b;
     return 0;
 }
