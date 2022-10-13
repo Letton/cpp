@@ -4,28 +4,21 @@
 
 using namespace std;
 
-map <char, int> SYMBOLS ({{ 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 }});
+const int M = 37, C = 64, A = 7;
+
+int pseudoRandom(int i) {
+    if (i == 0)
+        return (A * 29 + C) % M;
+    return (A * pseudoRandom(i - 1) + C) % M;
+}
+
+
 
 int main()
 {
-    int sum = 0;
-    cout << "Input Roman Numeral number\n";
-    string number;
-    cin >> number;
-    for (int i = 0; i < number.length(); ++i)
-    {
-        if (SYMBOLS[number[i]] == 0) {
-            cout << "Incorrect input";
-            return -1;
-        }
-        if (SYMBOLS[number[i]] < SYMBOLS[number[i + 1]])
-        {
-            sum += SYMBOLS[number[i + 1]] - SYMBOLS[number[i]];
-            ++i;
-            continue;
-        }
-        sum += SYMBOLS[number[i]];
-    }
-    cout << "Integer form of Roman Numeral is " << sum;
+    int n;
+    cout << "Input seed\n";
+    cin >> n;
+    cout << "P1seudo-random value is " << pseudoRandom(n);
     return 0;
 }
