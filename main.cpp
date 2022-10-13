@@ -1,61 +1,31 @@
 #include <iostream>
 #include <stack>
+#include <map>
 
 using namespace std;
 
-char digitPreprocess(int n) {
-    if (n < 10) return n + '0';
-    else if (n >= 10) {
-        return 'A' + (n - 10);
-    }
-}
+map <char, int> SYMBOLS ({{ 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 }});
 
 int main()
 {
-    int a, b;
+    int sum = 0;
+    cout << "Input Roman Numeral number\n";
     string number;
-    cout << "Input base a, base b, number\n";
-    cin >> a >> b >> number;
-    if ((a < 0) or (b < 0) or (a > 16) or (b > 16)) {
-        cout << "Wrong input";
-        return -1;
-    }
-    for (auto c : number) {
-        if (c >= 'A') {
-            if ((c - 'A' + 10) > a) {
-                cout << "Wrong input";
-                return -1;
-            }
+    cin >> number;
+    for (int i = 0; i < number.length(); ++i)
+    {
+        if (SYMBOLS[number[i]] == 0) {
+            cout << "Incorrect input";
+            return -1;
         }
-        else {
-            if ((c - '0') > a) {
-                cout << "Wrong input";
-                return -1;
-            }
+        if (SYMBOLS[number[i]] < SYMBOLS[number[i + 1]])
+        {
+            sum += SYMBOLS[number[i + 1]] - SYMBOLS[number[i]];
+            ++i;
+            continue;
         }
+        sum += SYMBOLS[number[i]];
     }
-    int tempNumber = 0;
-    int numberSize = number.size();
-    for (int i = 0; i < numberSize; ++i) {
-        if (number[i] >= 'A') {
-            tempNumber += (number[i] - 'A' + 10) * pow(a, numberSize - i - 1);
-        }
-        else {
-            tempNumber += (number[i] - '0') * pow(a, numberSize - i - 1);
-        }
-    }
-    string resNumber;
-    stack <char> remainders;
-    if (tempNumber == 0) resNumber = "0";
-    while (tempNumber > 0) {
-        char rem = digitPreprocess(tempNumber % b);
-        tempNumber = tempNumber / b;
-        remainders.push(rem);
-    }
-    while (!remainders.empty()) {
-        resNumber += remainders.top();
-        remainders.pop();
-    }
-    cout << number << " in base " << a << " = " << resNumber << " in base " << b;
+    cout << "Integer form of Roman Numeral is " << sum;
     return 0;
 }
