@@ -4,34 +4,36 @@
 
 using namespace std;
 
-
-const int M_0 = 37, B_0 = 3, C_0 = 64;
-
-const int M_1 = 25173, B_1 = 13849, C_1 = 65537;
-
-
-int pseudoRandom(int i, int variant) {
-    if (variant == 0) {
-        if (i == 0)
-            return (M_0 * 29 + B_0) % C_0;
-        return (M_0 * pseudoRandom(i - 1, variant) + B_0) % C_0;
-    }
-    if (variant == 1) {
-        if (i == 0)
-            return (M_1 * 29 + B_1) % C_1;
-        return (M_1 * pseudoRandom(i - 1, variant) + B_1) % C_1;
-    }
-}
+map <char, int> SYMBOLS ({{ 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 }});
 
 int main()
 {
-    int n, count;
-    cout << "Input variant: 1 for small numbers or 2 for big numbers\n";
-    cin >> n;
-    cout << "Input count of numbers\n";
-    cin >> count;
-    for (int i = 1; i < (2 + count); ++i) {
-        cout << pseudoRandom(i, n - 1) << "\n";
+    int sum = 0;
+    cout << "Input Roman Numeral number\n";
+    string number;
+    cin >> number;
+    if (number.length() > 2) {
+        for (int i = 0; i < number.length() - 2; ++i) {
+            if ((number[i] == number[i + 1]) and (number[i + 1] == number[i + 2])) {
+                cout << "Incorrect input";
+                return -1;
+            }
+        }
     }
+    for (int i = 0; i < number.length(); ++i)
+    {
+        if (SYMBOLS[number[i]] == 0) {
+            cout << "Incorrect input";
+            return -1;
+        }
+        if (SYMBOLS[number[i]] < SYMBOLS[number[i + 1]])
+        {
+            sum += SYMBOLS[number[i + 1]] - SYMBOLS[number[i]];
+            ++i;
+            continue;
+        }
+        sum += SYMBOLS[number[i]];
+    }
+    cout << "Integer form of Roman Numeral is " << sum;
     return 0;
 }
