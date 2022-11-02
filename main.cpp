@@ -4,41 +4,24 @@
 
 using namespace std;
 
-int recursiveGCD(int a, int b) {
-    if (b == 0)
-        return a;
-    else
-        return recursiveGCD(b, a % b);
+int isPrime(int n) {
+    for (int i = 3; i <= sqrt(n); i+=2) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
 }
 
 int main()
 {
-    int a, b, c;
-    cout << "Choose a way to find GCD:\n0 - Subtraction, 1 - Division, 2 - Recursive\n";
-    cin >> c;
-    if ((c < 0) or (c > 2)) {
-        cout << "Incorrect input";
-        return -1;
-    }
-    cout << "Input number: a, b\n";
-    cin >> a >> b;
-    if (c == 0) {
-        while (max(a, b) - min(a, b) != 0) {
-            if (a == max(a, b)) {
-                a = max(a, b) - min(a, b);
-            } else {
-                b = max(a, b) - min(a, b);
-            }
+    int n;
+    cout << "Input output limit for prime numbers";
+    cin >> n;
+    cout << 2;
+    for (int i = 3; i <= n; i+=2) {
+        if (isPrime(i)) {
+            cout << ", " << i;
         }
-        cout << a;
-    } else if (c == 1) {
-        while (b) {
-            a %= b;
-            swap (a, b);
-        }
-        cout << a;
-    } else if (c == 2) {
-        cout << recursiveGCD(a, b);
     }
     return 0;
 }
