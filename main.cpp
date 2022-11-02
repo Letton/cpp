@@ -4,36 +4,41 @@
 
 using namespace std;
 
-map <char, int> SYMBOLS ({{ 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 }});
+int recursiveGCD(int a, int b) {
+    if (b == 0)
+        return a;
+    else
+        return recursiveGCD(b, a % b);
+}
 
 int main()
 {
-    int sum = 0;
-    cout << "Input Roman Numeral number\n";
-    string number;
-    cin >> number;
-    if (number.length() > 2) {
-        for (int i = 0; i < number.length() - 2; ++i) {
-            if ((number[i] == number[i + 1]) and (number[i + 1] == number[i + 2])) {
-                cout << "Incorrect input";
-                return -1;
+    int a, b, c;
+    cout << "Choose a way to find GCD:\n0 - Subtraction, 1 - Division, 2 - Recursive\n";
+    cin >> c;
+    if ((c < 0) or (c > 2)) {
+        cout << "Incorrect input";
+        return -1;
+    }
+    cout << "Input number: a, b\n";
+    cin >> a >> b;
+    if (c == 0) {
+        while (max(a, b) - min(a, b) != 0) {
+            if (a == max(a, b)) {
+                a = max(a, b) - min(a, b);
+            } else {
+                b = max(a, b) - min(a, b);
             }
         }
-    }
-    for (int i = 0; i < number.length(); ++i)
-    {
-        if (SYMBOLS[number[i]] == 0) {
-            cout << "Incorrect input";
-            return -1;
+        cout << a;
+    } else if (c == 1) {
+        while (b) {
+            a %= b;
+            swap (a, b);
         }
-        if (SYMBOLS[number[i]] < SYMBOLS[number[i + 1]])
-        {
-            sum += SYMBOLS[number[i + 1]] - SYMBOLS[number[i]];
-            ++i;
-            continue;
-        }
-        sum += SYMBOLS[number[i]];
+        cout << a;
+    } else if (c == 2) {
+        cout << recursiveGCD(a, b);
     }
-    cout << "Integer form of Roman Numeral is " << sum;
     return 0;
 }
