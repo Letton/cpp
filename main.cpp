@@ -5,20 +5,22 @@
 using namespace std;
 
 int main() {
-    int n;
     string filename, text;
     cout << "Input filename\n";
     cin >> filename;
-    ofstream fileout(filename);
-    if (!fileout) {
+    ifstream filein(filename);
+    if (!filein) {
         cout << "Error creating file";
         return -1;
     }
-    cout << "Input text ends with 0\n";
-    cin.ignore();
-    getline(cin, text, '0');
-    fileout << text;
-    fileout.close();
-    cout << "File was successfully written";
+    cout << "Input char to count\n";
+    char c;
+    cin >> c;
+    int counter = 0;
+    while (getline(filein, text))
+    {
+        counter += count(text.begin(), text.end(), c);
+    }
+    cout << "Number of occurrences of \"" << c << "\" in " << filename << ": " << counter << " times";
     return 0;
 }
