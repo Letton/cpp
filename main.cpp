@@ -1,27 +1,24 @@
 #include <iostream>
-#include <stack>
-#include <map>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
-int isPrime(int n) {
-    for (int i = 3; i <= sqrt(n); i+=2) {
-        if (n % i == 0)
-            return false;
-    }
-    return true;
-}
-
-int main()
-{
+int main() {
     int n;
-    cout << "Input output limit for prime numbers";
-    cin >> n;
-    cout << 2;
-    for (int i = 3; i <= n; i+=2) {
-        if (isPrime(i)) {
-            cout << ", " << i;
-        }
+    string filename, text;
+    cout << "Input filename\n";
+    cin >> filename;
+    ofstream fileout(filename);
+    if (!fileout) {
+        cout << "Error creating file";
+        return -1;
     }
+    cout << "Input text ends with 0\n";
+    cin.ignore();
+    getline(cin, text, '0');
+    fileout << text;
+    fileout.close();
+    cout << "File was successfully written";
     return 0;
 }
