@@ -1,22 +1,53 @@
 #include <iostream>
+#include <vector>
 #include <string>
-#include <math.h>
+#include <algorithm>
 
 using namespace std;
 
-double func(int n) {
-    return tgamma(n + 1) / pow(((1.0 + (1.0 / n)) * n / 2.0), n);
+struct STRING_WITH_WORDS {
+    string str;
+    int words = 0;
+};
+
+bool comp(STRING_WITH_WORDS i, STRING_WITH_WORDS j) {
+    return (i.words < j.words);
 }
 
+unsigned countWords(const char *str) {
+    int state = 0;
+    unsigned wc = 0;
+    while (*str)
+    {
+        if (*str == ' ' || *str == '\n' || *str == '\t')
+            state = 0;
+        else if (state == 0)
+        {
+            state = 1;
+            ++wc;
+        }
+        ++str;
+    }
+    return wc;
+}
 
 int main() {
+    vector <STRING_WITH_WORDS> arr;
+    cout << "Input number of strings\n";
     int n;
-    cout << "Input n\n";
     cin >> n;
-    double sum = 0;
-    for (int i = 1; i <= n; ++i) {
-        sum += func(i);
+    cout << "Input strings\n";
+    cin.ignore();
+    for (int i = 0; i < n; ++i) {
+        STRING_WITH_WORDS sw;
+        getline(cin, sw.str);
+        const char* str = sw.str.c_str();
+        sw.words = countWords(str);
+        arr.push_back(sw);
     }
-    cout << "Total sum: " << sum;
+    sort(arr.begin(), arr.end(), comp);
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i].str << " : " << arr[i].words << " words" << "\n";
+    }
     return 0;
 }
