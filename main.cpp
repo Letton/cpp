@@ -1,26 +1,22 @@
 #include <iostream>
 #include <string>
-#include <fstream>
+#include <math.h>
 
 using namespace std;
 
+double func(int n) {
+    return tgamma(n + 1) / pow(((1.0 + (1.0 / n)) * n / 2.0), n);
+}
+
+
 int main() {
-    string filename, text;
-    cout << "Input filename\n";
-    cin >> filename;
-    ifstream filein(filename);
-    if (!filein) {
-        cout << "Error creating file";
-        return -1;
+    int n;
+    cout << "Input n\n";
+    cin >> n;
+    double sum = 0;
+    for (int i = 1; i <= n; ++i) {
+        sum += func(i);
     }
-    cout << "Input char to count\n";
-    char c;
-    cin >> c;
-    int counter = 0;
-    while (getline(filein, text))
-    {
-        counter += count(text.begin(), text.end(), c);
-    }
-    cout << "Number of occurrences of \"" << c << "\" in " << filename << ": " << counter << " times";
+    cout << "Total sum: " << sum;
     return 0;
 }
