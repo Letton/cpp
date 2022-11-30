@@ -7,37 +7,41 @@
 
 using namespace std;
 
-int main() {
-    map <int, int> numbers;
-    vector <int> max_numbers;
-    string filename, text;
-    cout << "Input filename\n";
-    cin >> filename;
-    ifstream filein(filename);
-    int n;
-    while (filein >> n) {
-        numbers[n] += 1;
-        cout << n << " ";
-    }
-    cout << "\n";
-    int maxx = 0;
-    for (auto it = numbers.begin(); it != numbers.end(); ++it)
+long sum = 0;
+
+void generate(int t, vector <int> &a, int n) {
+    if (t  == n - 1)
     {
-        if ((*it).second == maxx) {
-            max_numbers.push_back((*it).first);
+        bool flag = false;
+        for (int i = 0; i < n; ++i) {
+            if (a[i] == i) {
+                flag = true;
+            }
         }
-        if ((*it).second > maxx) {
-            maxx = (*it).second;
-            max_numbers.clear();
-            max_numbers.push_back((*it).first);
+        sum += flag ? 1 : 0;
+    }
+    else {
+        for (int j = t; j < n; ++j)
+        {
+            swap(a[t],a[j]);
+            t++;
+            generate(t, a ,n);
+            t--;
+            swap(a[t],a[j]);
         }
     }
-    cout << "Input output filename\n";
-    cin >> filename;
-    ofstream fileout(filename);
-    for (auto number : max_numbers) {
-        cout << number << " ";
-        fileout << number << " ";
-    }
+}
+
+
+int main() {
+    int n;
+    cout << "Input count of balls\n";
+    cin >> n;
+    vector <int> arr(n);
+    for (int i = 0; i < n; ++i)
+        arr[i] = i;
+    generate(0, arr, n);
+    cout << "Total number of cases when the number of at least one withdrawn\n"
+            "the number of balls conventionally with the ordinal number of the \"taking out\" action: " << sum;
     return 0;
 }
