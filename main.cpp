@@ -4,33 +4,27 @@
 
 using namespace std;
 
-template <typename T>
-double bine(T n) {
-    double index = pow(5, 0.5);
+int moves = 0;
 
-    double left = (1 + index) / 2;
-    double right = (1 - index) / 2;
-
-    return round((pow(left, n) - pow(right, n)) / index);
+void hanoi(int n, int i, int k) {
+    moves += 1;
+    if (n == 1) {
+        cout << "Move disk 1 from " << i << " to " << k << '\n';
+    } else {
+        int temp = 6 - i - k;
+        hanoi(n - 1, i, temp);
+        cout << "Move disk " << n << " from " <<  i << " to " << k << '\n';
+        hanoi(n - 1, temp, k);
+    }
 }
 
 
-template <typename T>
-T fibonacci(T n) {
-    if (n == 1 or n == 2)
-        return 1;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
 
 int main() {
-    long long n;
-    cout << "Input index of fibonacci number\n";
+    int n;
+    cout << "Input count of disks\n";
     cin >> n;
-    if (n < 1) {
-        cout << "Incorrect input";
-        return -1;
-    }
-    cout << "Fibonacci number by bine is " << bine <long long> (n) << "\n";
-    cout << "Fibonacci number is " << fibonacci <long long> (n);
+    hanoi(n, 1, 2);
+    cout << "Total transfers: " << moves;
     return 0;
 }
