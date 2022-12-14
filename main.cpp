@@ -1,72 +1,91 @@
+#include <iomanip>
+#include <cmath>
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <string>
+
 
 using namespace std;
 
-string generateRandomNumber() {
-    string str;
-    while (str.length() != 4) {
-        char randDigit = char('0' + rand() % 10);
-        if (!str.contains(randDigit)) {
-            str += randDigit;
-        }
+void findMonksLinks(auto monkNumber, auto & monksLink, auto & firstMonkLinks) {
+    if (monksLink[monkNumber] != 0) {
+        firstMonkLinks.push_back(monksLink[monkNumber]);
+        findMonksLinks(monksLink[monkNumber], monksLink, firstMonkLinks);
     }
-    return str;
-}
-
-bool isCorrectNumber(string & str) {
-    if (str.length() != 4)
-        return false;
-    for (auto & chr : str) {
-        if (count(str.begin(), str.end(), chr) > 1) {
-            return false;
-        }
-        if (std::isdigit(chr) == 0)
-            return false;
-    }
-    return true;
 }
 
 
+void printTeachersForMonk(int monkNumber, auto &monksLink) {
+    if (monksLink[monkNumber] == 1) {
+        cout << "St. Paul";
+        return;
+    }
+    if (monksLink[monkNumber] != 0) {
+        cout << monksLink[monkNumber] << " ";
+        printTeachersForMonk(monksLink[monkNumber], monksLink);
+    }
+}
 
 int main() {
-    srand(time(nullptr));
-    cout << "This program \"conceives\" a four-digit number that does not contain two of the same digits!\n"
-            "You enter your number and the computer reports the number of pluses (correctly guessed\n"
-            "numbers, i.e., standing in their places) and minuses (numbers that are in the intended number,\n"
-            "but elsewhere).\n";
-    string randomNumber = generateRandomNumber();
-    string str;
-    int pluses = 0, minuses = 0;
-    while (pluses != 4) {
-        pluses = 0, minuses = 0;
-        cout << "Input number\n";
-        getline(cin, str);
-        while (!isCorrectNumber(str)) {
-            cout << "Please, input correct number\n";
-            getline(cin, str);
+    int monks[601][3] = {0}, n;
+    cout << "Enter the number of data rows\n";
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        int monkNumber;
+        cin >> monkNumber;
+        for (int j = 0; j < 3; ++j) {
+            cin >> monks[monkNumber][j];
         }
-        for (int i = 0; i < str.length(); ++i) {
-            if (randomNumber.contains(str[i])) {
-                if (randomNumber.find(str[i]) == i) {
-                    pluses += 1;
+    }
+    int monksLink[601] = {0};
+    for (int i = 0; i < 601; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (monks[i][j] != 0) {
+                monksLink[monks[i][j]] = i;
+            }
+        }
+    }
+    cout << "Enter the number of tasks\n";
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        int taskNumber, firstMonk, secondMonk;
+        cin >> taskNumber;
+        if (taskNumber == 1) {
+            cin >> firstMonk;
+            if (monksLink[firstMonk] != 0) {
+                cout << firstMonk << " is a monk, his teachers: ";
+                printTeachersForMonk(firstMonk, monksLink);
+            } else {
+                cout << firstMonk << " is not a monk";
+            }
+            cout << "\n";
+        }
+        else if (taskNumber == 2) {
+            cin >> firstMonk >> secondMonk;
+            if (monksLink[firstMonk] == 0 or monksLink[secondMonk] == 0) {
+                cout << "One of the introductory is not a monk\n";
+            } else {
+                vector <int> firstMonkLinks;
+                vector <int> secondMonkLinks;
+                findMonksLinks(firstMonk, monksLink, firstMonkLinks);
+                findMonksLinks(secondMonk, monksLink, secondMonkLinks);\
+                bool flag = false;
+                for (auto & teacherNumber : firstMonkLinks) {
+                    auto founded = find(secondMonkLinks.begin(), secondMonkLinks.end(), teacherNumber);
+                    if (founded != secondMonkLinks.end()) {
+                        if (teacherNumber == 1) {
+                            cout << firstMonk << " and " << secondMonk << " are monks, their common teacher is St. Paul\n";
+                        } else {
+                            cout << firstMonk << " and " << secondMonk << " are monks, their common teacher is " << teacherNumber << "\n";
+                        }
+                        flag = true;
+                        break;
+                    }
                 }
-                if (randomNumber.find(str[i]) != i) {
-                    minuses += 1;
+                if (!flag) {
+                    cout << firstMonk << " and " << secondMonk << " are monks, they don't have a common teacher\n";
                 }
             }
         }
-        cout << randomNumber << "\n";
-        for (int i = 0; i < pluses; ++i) {
-            cout << "+";
-        }
-        for (int i = 0; i < minuses; ++i) {
-            cout << "-";
-        }
-        cout << "\n";
     }
-    cout << "You WON!";
     return 0;
 }
